@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" data-theme="autumn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${productLine!=null? productLine : 'All Products'}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.13/dist/full.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+<body>
+<th:block th:insert="~{components/page-header.html}"/>
+<th:block th:insert="~{components/alert.html}"/>
+<th:block th:insert="~{components/alert_error.html}"/>
+<th:block th:insert="~{components/paging-hero.html}"/>
+<div class="w-[90%] mx-auto -mt-16">
+    <th:block th:insert="~{components/tabList.html}"/>
+    <div th:class="'mx-auto py-2 shadow-xl rounded-lg bg-base-100 ' + ${productLine==null ? 'lg:rounded-tl-none' : ''}">
+        <div class="flex justify-between mx-4 my-2">
+            <span class="text-xl font-bold">Products</span>
+            <a href="/create" data-theme="pastel"
+               class="btn btn-accent scale-90 w-fit flex justify-center items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                     viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                </svg>
+                Add Product
+            </a>
+        </div>
+        <div class="overflow-x-auto w-full">
+            <table class="table table-xs lg:table-md mx-auto">
+                <thead>
+                <tr>
+                    <th>Product Code
+                        <a th:href="@{'/products?pageSize=10&pageNumber='+${page.getNumber()} + ${productLine==null?'':'&productLine=' +productLine}
+                            + '&sortBy=productCode' + '&sortDirection=' + ${sortDirection.equals('desc')? 'asc' : 'desc'}}">
+                            <i th:class="'bi sortRow cursor-pointer ' + ${sortDirection=='desc' && sortBy.equals('productCode')? 'bi-caret-down-fill' : 'bi-caret-up-fill'}"></i>
+                        </a>
+                    </th>
+                    <th>Product Name
+                        <a th:href="@{'/products?pageSize=10&pageNumber='+${page.getNumber()} + ${productLine==null?'':'&productLine=' +productLine}
+                            + '&sortBy=productName' + '&sortDirection=' + ${sortDirection.equals('desc')? 'asc' : 'desc'}}">
+                            <i th:class="'bi sortRow cursor-pointer ' + ${sortDirection=='desc' && sortBy.equals('productName')? 'bi-caret-down-fill' : 'bi-caret-up-fill'}"></i>
+                        </a>
+                    </th>
+                    <th>Product Line
+                        <a th:if="${productLine==null}" th:href="@{'/products?pageSize=10&pageNumber='+${page.getNumber()} + ${productLine==null?'':'&productLine=' +productLine}
+                            + '&sortBy=productLine' + '&sortDirection=' + ${sortDirection.equals('desc')? 'asc' : 'desc'}}">
+                            <i th:class="'bi sortRow cursor-pointer ' + ${sortDirection=='desc' && sortBy.equals('productLine')? 'bi-caret-down-fill' : 'bi-caret-up-fill'}"></i>
+                        </a>
+                    </th>
+                    <th>Scale
+                        <a th:href="@{'/products?pageSize=10&pageNumber='+${page.getNumber()} + ${productLine==null?'':'&productLine=' +productLine}
+                            + '&sortBy=productScale' + '&sortDirection=' + ${sortDirection.equals('desc')? 'asc' : 'desc'}}">
+                            <i th:class="'bi sortRow cursor-pointer ' + ${sortDirection=='desc' && sortBy.equals('productScale')? 'bi-caret-down-fill' : 'bi-caret-up-fill'}"></i>
+                        </a>
+                    </th>
+                    <th>Vendor
+                        <a th:href="@{'/products?pageSize=10&pageNumber='+${page.getNumber()} + ${productLine==null?'':'&productLine=' +productLine}
+                            + '&sortBy=productVendor' + '&sortDirection=' + ${sortDirection.equals('desc')? 'asc' : 'desc'}}">
+                            <i th:class="'bi sortRow cursor-pointer ' + ${sortDirection=='desc' && sortBy.equals('productVendor')? 'bi-caret-down-fill' : 'bi-caret-up-fill'}"></i>
+                        </a>
+                    </th>
+                    <th>Price
+                        <a th:href="@{'/products?pageSize=10&pageNumber='+${page.getNumber()} + ${productLine==null?'':'&productLine=' +productLine}
+                            + '&sortBy=buyPrice' + '&sortDirection=' + ${sortDirection.equals('desc')? 'asc' : 'desc'}}">
+                            <i th:class="'bi sortRow cursor-pointer ' + ${sortDirection=='desc' && sortBy.equals('buyPrice')? 'bi-caret-down-fill' : 'bi-caret-up-fill'}"></i>
+                        </a>
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody th:each="p : ${page.content}">
+                <tr class="hover:bg-base-200">
+                    <td th:text="${p.productCode}"/>
+                    <td>
+                        <a class="link link-primary link-hover" th:href="@{'/update?productCode=' + ${p.productCode}}"
+                           th:text="${p.productName}"/>
+                        <span th:class="'badge badge-outline badge-sm '
+                                        + ${p.quantityInStock > 4000 ? 'badge-success'
+                                        : p.quantityInStock < 4000 && p.quantityInStock > 1000 ? 'badge-warning'
+                                         : 'badge-error'}"
+                              th:text="${p.quantityInStock}"></span>
+                    </td>
+                    <td th:text="${p.productLine.productLine}"/>
+                    <td th:text="${p.productScale}"/>
+                    <td th:text="${p.productVendor}"/>
+                    <td th:text="${p.buyPrice}"/>
+                    <td>
+                        <a th:attr="data-product-code=${p.productCode}" class="btn btn-error btn-link delete-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </a>
+
+                        <!-- Modal -->
+                        <dialog id="deleteModal" class="modal">
+                            <div class="modal-box">
+                                <h3 class="font-bold text-lg">Are you sure?</h3>
+                                <p class="py-4">Do you really want to delete this product?</p>
+                                <div class="modal-action">
+                                    <form method="dialog">
+                                        <!-- Close Button -->
+                                        <button class="btn">Cancel</button>
+                                    </form>
+                                    <!-- Confirm Delete Button -->
+                                    <a id="confirmDeleteButton" class="btn btn-error">Delete</a>
+                                </div>
+                            </div>
+                        </dialog>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<th:block th:insert="~{components/pagination.html}"/>
+<th:block th:insert="~{components/footer.html}"/>
+<script src="js/script.js"></script>
+</body>
+</html>

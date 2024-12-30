@@ -1,0 +1,11 @@
+<div class="hero bg-primary pt-6 py-12 px-24" data-theme="pastel">
+    <div class="hero-content flex-col lg:flex-row-reverse">
+        <img th:if="${productLine!=null}"
+             th:src="'images/' + ${productLine} + '.png'"
+             class="max-w-sm rounded-lg aspect-[4/3] object-cover" />
+        <div>
+            <h1 class="text-5xl font-bold" th:text="${product!=null ? product.productLine: 'Products'}"></h1>
+            <p class="py-6" th:text="${product!=null?product.textDescription: ''}"></p>
+        </div>
+    </div>
+</div>

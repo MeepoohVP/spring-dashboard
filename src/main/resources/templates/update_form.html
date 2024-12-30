@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.13/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-base-200">
+<th:block th:insert="~{components/page-header.html}"/>
+<form method="post" action="/update" class="form-control card-bordered mt-6 mx-auto card bg-base-100 pb-4 w-[95%] lg:w-2/3 shadow-xl">
+    <div class="card-body gap-3">
+        <h2 class="card-title text-2xl">Update Product</h2>
+        <div class="mt-1 flex gap-2">
+            <label class="form-control w-1/3">
+                <div class="label">
+                    <span class="label-text-alt">Product Code</span>
+                </div>
+                <input class="input input-sm input-bordered shadow-xs btn-disabled opacity-70" type="text" name="productCode" placeholder="Product Code" th:value="${product.productCode}" readonly />
+            </label>
+            <label class="form-control w-2/3">
+                <div class="label">
+                    <span class="label-text-alt">Product Name</span>
+                </div>
+                <input class="input input-sm input-bordered shadow-xs" type="text" name="productName" placeholder="Product Name" th:value="${product.productName}" required />
+            </label>
+        </div>
+
+        <div class="mt-1">
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text-alt">Product Line</span>
+                </div>
+            <select class="select select-sm w-full select-bordered shadow-xs" name="productLine"  required>
+                <option disabled selected value="">Select Product Line</option>
+                <option value="Classic Cars" th:selected="${product.productLine.productLine == 'Classic Cars'}">Classic Cars</option>
+                <option value="Motorcycles" th:selected="${product.productLine.productLine == 'Motorcycles'}">Motorcycles</option>
+                <option value="Planes" th:selected="${product.productLine.productLine == 'Planes'}">Planes</option>
+                <option value="Ships" th:selected="${product.productLine.productLine == 'Ships'}">Ships</option>
+                <option value="Trains" th:selected="${product.productLine.productLine == 'Trains'}">Trains</option>
+                <option value="Trucks and Buses" th:selected="${product.productLine.productLine == 'Trucks and Buses'}">Trucks and Buses</option>
+                <option value="Vintage Cars" th:selected="${product.productLine.productLine == 'Vintage Cars'}">Vintage Cars</option>
+            </select>
+            </label>
+        </div>
+
+        <div class="mt-1 flex gap-2">
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text-alt">Product Scale</span>
+                </div>
+                <input class="input input-sm w-full input-bordered shadow-xs" type="text" name="productScale" th:value="${product.productScale}" placeholder="Product Scale" />
+            </label>
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text-alt">Product Vendor</span>
+                </div>
+                <input class="input input-sm w-full input-bordered shadow-xs" type="text" name="productVendor" th:value="${product.productVendor}" placeholder="Product Vendor" />
+            </label>
+        </div>
+
+        <div class="mt-1">
+            <label class="form-control">
+                <div class="label">
+                    <span class="label-text-alt">Text Description</span>
+                </div>
+                <textarea class="textarea textarea-sm w-full textarea-bordered shadow-xs h-40" name="productDescription" placeholder="Product Description">[[${product.productDescription}]]</textarea>
+            </label>
+        </div>
+
+        <div class="mt-1 flex gap-2">
+           <label class="form-control">
+               <div class="label">
+                   <span class="label-text-alt">Quantity</span>
+               </div>
+               <input class="input input-sm w-full input-bordered shadow-xs" type="number" name="quantityInStock" th:value="${product.quantityInStock}" placeholder="Quantity" required />
+           </label>
+            <label class="form-control">
+                <div class="label">
+                    <span class="label-text-alt">Buy Price</span>
+                </div>
+                <input class="input input-sm w-full input-bordered shadow-xs" type="number" step="0.01" name="buyPrice" th:value="${product.buyPrice}" placeholder="Buy Price" required />
+            </label>
+            <label class="form-control">
+                <div class="label">
+                    <span class="label-text-alt">MSRP</span>
+                </div>
+                <input class="input input-sm w-full input-bordered shadow-xs" type="number" step="0.01" name="msrp" th:value="${product.msrp}" placeholder="MSRP" required />
+            </label>
+        </div>
+    </div>
+
+    <div class="card-actions flex-row-reverse justify-center mx-5 items-center">
+        <button type="submit" class="btn btn-success btn-md">
+            Update
+        </button>
+        <a href="/products" class="hover:btn-error btn hover:bg-white/0 text-error btn-link">
+            Cancel
+        </a>
+    </div>
+</form>
+<th:block th:insert="~{components/footer.html}"/>
+</body>
+</html>

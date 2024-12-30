@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.19/dist/full.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<th:block th:insert="~{components/page-header.html}"/>
+<div class="hero bg-base-200 py-12">
+    <div class="hero-content md:text-center">
+        <div class="max-w-sm md:max-w-md">
+            <h1 class="text-5xl font-bold">Welcome to Classic Models</h1>
+            <p class="py-6">
+                Constantly evolving and innovating, Classic Models is at the forefront of the industry, offering
+                products that combine functionality, design, and durability.
+            </p>
+            <a href="/products" class="btn btn-primary">See All Products</a>
+        </div>
+    </div>
+</div>
+<div class="w-[75%] mt-4 h-auto mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 p-3">
+    <a th:href="@{'/products?productLine=' + ${pl.productLine}}"
+       class="card card-compact aspect-[4/3] shadow-xl overflow-hidden" th:each="pl : ${productLines}">
+        <figure class="relative overflow-hidden w-full h-full">
+            <img
+                    class="scale-[1] aspect-[4/3] absolute top-0 left-0 object-cover object-center"
+                    th:src="'images/' + ${pl.productLine} + '.png'"
+                    th:alt="${pl.productLine}"/>
+        </figure>
+        <div class="card-body bottom-0 w-full h-full absolute hover:bg-black/40 duration-500">
+            <h2 th:text="${pl.productLine}"
+                class="card-title text-md bottom-0 left-1/2 -translate-x-1/2 absolute text-white"></h2>
+        </div>
+    </a>
+</div>
+<th:block th:insert="~{components/footer.html}"/>
+</body>
+</html>

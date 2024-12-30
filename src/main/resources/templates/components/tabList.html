@@ -1,0 +1,8 @@
+<div role="tablist" class="tabs tabs-lifted z-20 w-fit hidden lg:flex font-semibold">
+    <span role="tab" th:class="'tab ' + ${productLine==null ? 'tab-active' : ''}">
+        <a href="/products">All</a>
+    </span>
+    <span role="tab" th:class="'tab ' + ${productLine==pl.productLine ? 'tab-active' : ''}" th:each="pl : ${productLines}">
+        <a th:href="@{'/products?productLine=' + ${pl.productLine}}" th:text="${pl.productLine}"></a>
+    </span>
+</div>

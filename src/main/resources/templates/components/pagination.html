@@ -1,0 +1,5 @@
+<div class="join flex justify-center mt-12" th:if="${page.getTotalPages()>1}">
+    <a th:class="'join-item btn ' + ${index==page.getNumber() ? 'btn-disabled' : ''}" th:href="@{'/products?pageSize=10&pageNumber='+${index} + ${productLine==null?'':'&productLine=' +productLine}
+    + '&sortBy='+${sortBy} + '&sortDirection=' + ${sortDirection}}"
+       th:text="${index + 1}" th:each="index: ${#numbers.sequence(0,page.totalPages -1)}"/>
+</div>
